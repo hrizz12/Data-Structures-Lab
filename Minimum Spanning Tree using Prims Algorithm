@@ -1,0 +1,110 @@
+/*#include <stdio.h>
+#include <stdbool.h>
+#include <limits.h>
+#define V 100
+
+int minKey(int key[], bool mstSet[], int vertices) {
+	// Write your code here...
+
+
+
+}
+void printTree(int parent[], int graph[V][V], int vertices) {
+    printf("Edge \tWeight\n");
+    for (int i = 1; i < vertices; i++)
+        printf("%d - %d \t%d \n", parent[i], i, graph[i][parent[i]]);
+}
+
+void prim(int graph[V][V], int vertices) {
+	// Write your code here...
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+int main() {
+    int vertices;
+    int graph[V][V];
+
+    printf("No of vertices: ");
+    scanf("%d", &vertices);
+
+    printf("Adjacency matrix elements (row wise):\n");
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    prim(graph, vertices);
+
+    return 0;
+}*/#include <stdio.h>
+#include <limits.h>
+
+#define MAX 100
+
+int main() {
+    int V; printf("No of vertices: ");
+    scanf("%d", &V);
+
+    int graph[MAX][MAX];
+printf("Adjacency matrix elements (row wise):\n");
+    // Input adjacency matrix
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    int parent[MAX];   // Stores MST
+    int key[MAX];      // Minimum weight
+    int visited[MAX];  // Visited vertices
+
+    // Initialize
+    for (int i = 0; i < V; i++) {
+        key[i] = INT_MAX;
+        visited[i] = 0;
+    }
+
+    // Start from vertex 0
+    key[0] = 0;
+    parent[0] = -1;
+
+    // MST construction
+    for (int count = 0; count < V - 1; count++) {
+        int min = INT_MAX, u;
+
+        // Find minimum key vertex
+        for (int v = 0; v < V; v++) {
+            if (!visited[v] && key[v] < min) {
+                min = key[v];
+                u = v;
+            }
+        }
+
+        visited[u] = 1;
+
+        // Update adjacent vertices
+        for (int v = 0; v < V; v++) {
+            if (graph[u][v] && !visited[v] && graph[u][v] < key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+
+    // Output
+    printf("Edge \tWeight\n");
+    for (int i = 1; i < V; i++) {
+        printf("%d - %d \t%d \n", parent[i], i, graph[i][parent[i]]);
+    }
+
+    return 0;
+}
