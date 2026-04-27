@@ -1,0 +1,166 @@
+/*#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+
+// Graph represented using adjacency list
+typedef struct Node {
+    int vertex;
+    struct Node* next;
+} Node;
+
+Node* adjList[MAX_VERTICES];
+int visited[MAX_VERTICES];
+
+// Function to create a new adjacency list node
+Node* createNode(int vertex) {
+    //write your code here...
+    
+    
+    
+    
+}
+
+// Function to add an edge to the graph
+void addEdge(int u, int v) {
+    //write your code here...
+    
+    
+    
+    
+}
+
+// Function to sort the adjacency list for each vertex
+void sortAdjList(int V) {
+    //write your code here...
+    
+    
+    
+    
+}
+
+// Depth-First Search (DFS) function
+void DFS(int start) {
+    //write your code here...
+    
+    
+    
+    
+}
+
+int main() {
+    int V, E;
+    int u, v, start;
+
+    // Read number of vertices and edges
+    scanf("%d %d", &V, &E);
+
+    // Initialize adjacency list
+    for (int i = 0; i < V; i++) {
+        adjList[i] = NULL;
+        visited[i] = 0;
+    }
+
+    // Read the edges
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d", &u, &v);
+        addEdge(u, v);
+    }
+
+    // Sort the adjacency list for each vertex
+    sortAdjList(V);
+
+    // Read the starting node
+    scanf("%d", &start);
+
+    // Perform DFS starting from the given node
+    DFS(start);
+
+    return 0;
+}*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+// Adjacency list node
+struct Node {
+    int vertex;
+    struct Node* next;
+};
+
+struct Node* adjList[MAX];
+int visited[MAX];
+
+// Create a new node
+struct Node* createNode(int v) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->vertex = v;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Add edge (directed)
+void addEdge(int u, int v) {
+    struct Node* newNode = createNode(v);
+    newNode->next = adjList[u];
+    adjList[u] = newNode;
+}
+
+// Sort adjacency list (so smaller nodes are visited first)
+void sortList(int v) {
+    struct Node *i, *j;
+    for (i = adjList[v]; i != NULL; i = i->next) {
+        for (j = i->next; j != NULL; j = j->next) {
+            if (i->vertex > j->vertex) {
+                int temp = i->vertex;
+                i->vertex = j->vertex;
+                j->vertex = temp;
+            }
+        }
+    }
+}
+
+// DFS function
+void DFS(int v) {
+    visited[v] = 1;
+    printf("%d ", v);
+
+    struct Node* temp = adjList[v];
+    while (temp != NULL) {
+        if (!visited[temp->vertex]) {
+            DFS(temp->vertex);
+        }
+        temp = temp->next;
+    }
+}
+
+int main() {
+    int V, E;
+    scanf("%d %d", &V, &E);
+
+    // Initialize
+    for (int i = 0; i < V; i++) {
+        adjList[i] = NULL;
+        visited[i] = 0;
+    }
+
+    // Input edges
+    for (int i = 0; i < E; i++) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        addEdge(u, v);
+    }
+
+    // Sort adjacency lists
+    for (int i = 0; i < V; i++) {
+        sortList(i);
+    }
+
+    int start;
+    scanf("%d", &start);
+
+    DFS(start);
+
+    return 0;
+}
